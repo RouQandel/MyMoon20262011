@@ -1,0 +1,70 @@
+<article class="page wish">
+  <header class="page-head">
+    <span class="kicker">{{ chapter }}</span>
+    <h2 class="script-title">{{ w.title }}</h2>
+  </header>
+
+  <div class="scene">
+    <div class="glow" [style.opacity]="glow()"></div>
+
+    <div class="cake">
+      <div class="candles">
+        @for (c of candles; track c) {
+          <button type="button" class="candle" [class.out]="out().has(c)" (click)="blow(c)" aria-label="Blow out this candle">
+            <span class="flame"></span>
+            <span class="smoke"></span>
+            <span class="stick"></span>
+          </button>
+        }
+      </div>
+      <div class="tier top"></div>
+      <div class="tier bottom">
+        <span class="name">{{ w.cakeName }}</span>
+      </div>
+      <div class="plate"></div>
+    </div>
+  </div>
+
+  @if (allOut()) {
+    <div class="confetti" aria-hidden="true">
+      @for (p of confetti; track $index) {
+        @if (p.heart) {
+          <app-doodle
+            name="heart"
+            [filled]="true"
+            [style.left.%]="p.left"
+            [style.color]="p.color"
+            [style.animation-delay.s]="p.delay"
+            [style.animation-duration.s]="p.duration"
+            [style.--drift.px]="p.drift"
+          />
+        } @else {
+          <i
+            [style.left.%]="p.left"
+            [style.background]="p.color"
+            [style.animation-delay.s]="p.delay"
+            [style.animation-duration.s]="p.duration"
+            [style.--drift.px]="p.drift"
+          ></i>
+        }
+      }
+    </div>
+
+    <div class="after" animate.enter="fade-up-enter">
+      <h3 class="script">{{ w.afterTitle }}</h3>
+      <p>{{ w.afterText }}</p>
+      <button type="button" class="btn-ghost" (click)="relight()">{{ w.relight }}</button>
+    </div>
+  } @else {
+    <p class="before">{{ w.before }}</p>
+  }
+
+  @if (w.photo) {
+    <figure class="mini-polaroid">
+      <img [src]="w.photo" [alt]="w.photoCaption" loading="lazy" draggable="false" />
+      <figcaption>{{ w.photoCaption }}</figcaption>
+    </figure>
+  }
+
+  <app-secret class="wish-secret" at="wish" doodle="sparkle" />
+</article>

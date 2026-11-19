@@ -1,0 +1,163 @@
+.sky {
+  position: relative;
+  height: 150px;
+  margin: 4px -6px 0;
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7), transparent 40%),
+    linear-gradient(180deg, rgba(242, 212, 208, 0.55), rgba(242, 212, 208, 0.15));
+}
+
+.float-heart {
+  position: absolute;
+  padding: 6px;
+  translate: -50% 0;
+  filter: drop-shadow(0 4px 6px rgba(181, 131, 141, 0.35));
+  animation: bob ease-in-out infinite alternate;
+
+  &.pop {
+    pointer-events: none;
+    animation: pop 0.45s ease-out forwards;
+  }
+}
+
+.refill {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  font-size: 1.3rem;
+  color: var(--burgundy);
+  animation: fade-up 0.6s ease both;
+}
+
+.reveal-slot {
+  display: grid;
+  place-items: center;
+  min-height: 74px;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.reveal {
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--burgundy);
+  animation: reveal 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.3) both;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 6px;
+  perspective: 1000px;
+}
+
+.card {
+  display: block;
+  text-align: inherit;
+  transform: rotate(calc(var(--tilt) * 1.2deg));
+}
+
+.card-inner {
+  display: grid;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.3, 0.7, 0.3, 1.15);
+}
+
+.flipped .card-inner {
+  transform: rotateY(180deg);
+}
+
+.face {
+  grid-area: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 128px;
+  padding: 14px 12px;
+  border-radius: 12px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-shadow: 0 4px 12px rgba(74, 47, 42, 0.12);
+}
+
+.front {
+  gap: 6px;
+  border: 1px dashed rgba(122, 46, 62, 0.3);
+  background: linear-gradient(160deg, #f7e1db, #efcfc8);
+  color: var(--burgundy);
+
+  .num {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+  }
+
+  app-doodle {
+    font-size: 1.1rem;
+    color: var(--rose);
+  }
+
+  .tap {
+    font-family: var(--font-hand);
+    font-size: 1rem;
+    opacity: 0.7;
+  }
+}
+
+.back {
+  transform: rotateY(180deg);
+  background: var(--paper-light);
+  border: 1px solid rgba(200, 164, 106, 0.35);
+  font-family: var(--font-hand);
+  font-size: 1.22rem;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--ink);
+}
+
+.counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 22px;
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--brown);
+
+  app-secret {
+    color: var(--rose);
+  }
+}
+
+@keyframes bob {
+  from {
+    transform: translateY(-6px) rotate(-6deg);
+  }
+  to {
+    transform: translateY(8px) rotate(6deg);
+  }
+}
+
+@keyframes pop {
+  60% {
+    opacity: 1;
+    transform: scale(1.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(2.2);
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(10px) scale(0.92);
+  }
+}

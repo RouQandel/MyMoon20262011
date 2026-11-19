@@ -1,0 +1,329 @@
+.turntable {
+  padding: 22px 18px 20px;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.6), transparent 60%),
+    linear-gradient(180deg, #f3ddd6, #ebcdc4);
+  box-shadow: inset 0 0 0 1px rgba(200, 164, 106, 0.3);
+  text-align: center;
+}
+
+.deck {
+  position: relative;
+  width: min(62vw, 230px);
+  aspect-ratio: 1;
+  margin: 0 auto 16px;
+}
+
+.disc {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    repeating-radial-gradient(circle, rgba(255, 255, 255, 0.04) 0 1px, transparent 1px 4px),
+    conic-gradient(from 20deg, #241517, #4a2e33 10%, #241517 22%, #3b2427 48%, #241517 60%, #4a2e33 72%, #241517);
+  box-shadow:
+    0 14px 30px rgba(45, 22, 26, 0.35),
+    inset 0 0 0 6px #1b0f11;
+  animation: spin 5s linear infinite;
+  animation-play-state: paused;
+}
+
+.playing .disc {
+  animation-play-state: running;
+}
+
+.disc-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 36%;
+  aspect-ratio: 1;
+  padding: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--paper-light) 8%, var(--blush) 9%, #e5b9b4);
+  color: var(--burgundy);
+
+  .disc-title {
+    max-width: 100%;
+    overflow: hidden;
+    font-family: var(--font-script);
+    font-size: 0.95rem;
+    line-height: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  app-doodle {
+    font-size: 0.6rem;
+  }
+}
+
+.arm {
+  position: absolute;
+  top: -6%;
+  right: -6%;
+  width: 8%;
+  height: 62%;
+  transform-origin: 50% 8%;
+  rotate: -28deg;
+  transition: rotate 1s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #f3dca8, #b88a4a);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 10px;
+    left: 50%;
+    width: 3px;
+    translate: -50% 0;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #c9a46a, #f3dca8, #b88a4a);
+  }
+
+  .arm-head {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 12px;
+    height: 18px;
+    translate: -50% 0;
+    border-radius: 3px;
+    background: #3a2a24;
+  }
+}
+
+.playing .arm {
+  rotate: 0deg;
+}
+
+.our-song {
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  font-style: italic;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--rose);
+}
+
+.song-title {
+  font-family: var(--font-script);
+  font-size: 2.3rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--burgundy);
+}
+
+.song-artist {
+  font-family: var(--font-serif);
+  font-style: italic;
+  color: var(--brown);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0 14px;
+
+  .t {
+    min-width: 2.4em;
+    font-family: var(--font-serif);
+    font-size: 0.78rem;
+    color: var(--brown);
+  }
+
+  .bar {
+    position: relative;
+    flex: 1;
+    height: 18px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 3px;
+      translate: 0 -50%;
+      border-radius: 3px;
+      background: rgba(122, 46, 62, 0.15);
+    }
+  }
+
+  .fill {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 3px;
+    translate: 0 -50%;
+    border-radius: 3px;
+    background: var(--burgundy);
+    transition: width 0.25s linear;
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: -5px;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      translate: 0 -50%;
+      border-radius: 50%;
+      background: var(--burgundy);
+    }
+  }
+}
+
+.big-pp {
+  padding: 11px 26px;
+  border-radius: 999px;
+  background: var(--burgundy);
+  box-shadow: 0 6px 16px rgba(109, 46, 60, 0.3);
+  color: #fbe9e1;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-style: italic;
+}
+
+.remind {
+  margin-top: 14px;
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--burgundy);
+}
+
+.lyrics {
+  position: relative;
+  margin: 30px 8px 0;
+  padding: 26px 22px 22px;
+  background: var(--paper-light);
+  box-shadow: 0 8px 18px rgba(74, 47, 42, 0.12);
+  rotate: -1.5deg;
+  text-align: center;
+
+  .tape {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 80px;
+    height: 20px;
+    translate: -50% 0;
+    rotate: 3deg;
+    background: rgba(200, 164, 106, 0.35);
+  }
+
+  .lyrics-intro {
+    margin-bottom: 8px;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .lyric {
+    font-family: var(--font-hand);
+    font-size: 1.5rem;
+    line-height: 1.2;
+    color: var(--ink);
+  }
+}
+
+.lyrics-secret {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  color: var(--rose);
+}
+
+.tracks {
+  margin-top: 30px;
+
+  h4 {
+    margin-bottom: 8px;
+    font-family: var(--font-serif);
+    font-size: 0.8rem;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-align: center;
+    color: var(--brown);
+  }
+
+  ol {
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 4px;
+    border-bottom: 1px dashed rgba(122, 46, 62, 0.18);
+  }
+
+  .no {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .info {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+  }
+
+  .name {
+    font-family: var(--font-serif);
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--burgundy);
+
+    em {
+      font-weight: 400;
+      color: var(--brown);
+    }
+  }
+
+  .why {
+    font-family: var(--font-hand);
+    font-size: 1.15rem;
+    color: var(--ink);
+  }
+
+  .listen {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--blush);
+    color: var(--burgundy);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

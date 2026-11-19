@@ -1,0 +1,19 @@
+<button
+  type="button"
+  class="envelope"
+  [class.is-open]="state() !== 'closed'"
+  (click)="tap()"
+  [attr.aria-label]="'Open letter: ' + label()"
+>
+  <span class="env-back"></span>
+  <span class="env-letter">
+    <span class="line"></span><span class="line"></span><span class="line short"></span>
+    <app-doodle class="letter-heart" name="heart" [filled]="true" />
+  </span>
+  <span class="env-pocket"></span>
+  <span class="env-flap"></span>
+  <span class="env-seal"><app-doodle name="heart" [filled]="true" /></span>
+</button>
+@if (label()) {
+  <span class="env-label" [class.read]="state() === 'open'">{{ label() }}</span>
+}

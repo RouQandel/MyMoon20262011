@@ -1,0 +1,64 @@
+<article class="page">
+  <header class="page-head">
+    <span class="kicker">{{ chapter }}</span>
+    <h2 class="script-title">{{ r.title }}</h2>
+    <p class="lead">{{ r.intro }}</p>
+  </header>
+
+  @if (hearts.length) {
+    <div class="sky">
+      @for (h of hearts; track $index; let i = $index) {
+        @if (!popped().has(i)) {
+          <button
+            type="button"
+            class="float-heart"
+            [class.pop]="popping().has(i)"
+            [style.left.%]="h.left"
+            [style.top.%]="h.top"
+            [style.font-size.px]="h.size"
+            [style.color]="h.color"
+            [style.animation-duration.s]="h.duration"
+            [style.animation-delay.s]="h.delay"
+            (click)="pop(i)"
+            aria-label="Pop a heart"
+          >
+            <app-doodle name="heart" [filled]="true" />
+          </button>
+        }
+      }
+      @if (allPopped()) {
+        <button type="button" class="refill hand" (click)="refill()">…and a thousand more. tap to float them again ♡</button>
+      }
+    </div>
+
+    <div class="reveal-slot" aria-live="polite">
+      @if (revealed(); as rv) {
+        @for (x of [rv]; track x.id) {
+          <p class="reveal hand">“{{ x.text }}”</p>
+        }
+      } @else {
+        <p class="hint">tap the floating hearts</p>
+      }
+    </div>
+  }
+
+  <div class="cards">
+    @for (reason of r.cards; track $index; let i = $index) {
+      <button type="button" class="card" [class.flipped]="flipped().has(i)" (click)="flip(i)" [style.--tilt]="(i % 3) - 1">
+        <span class="card-inner">
+          <span class="face front">
+            <span class="num">{{ i + 1 }}</span>
+            <app-doodle name="heart" />
+            <span class="tap">tap me</span>
+          </span>
+          <span class="face back">{{ reason }}</span>
+        </span>
+      </button>
+    }
+  </div>
+
+  <p class="counter">
+    <app-secret at="reasons" doodle="flower" />
+    {{ flipped().size }} of {{ r.cards.length }} discovered
+  </p>
+</article>

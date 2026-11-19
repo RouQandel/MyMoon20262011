@@ -1,0 +1,43 @@
+<article class="page">
+  <header class="page-head">
+    <span class="kicker">{{ chapter }}</span>
+    <h2 class="script-title">{{ m.title }}</h2>
+    <p class="lead">{{ m.intro }}</p>
+  </header>
+
+  <div class="scrapbook">
+    @for (item of m.items; track $index; let i = $index; let odd = $odd) {
+      <section class="memory" [class.alt]="odd" [style.--tilt.deg]="tilts[i % tilts.length]">
+        @if (item.photo) {
+          <figure class="polaroid">
+            <span class="tape"></span>
+            <img [src]="item.photo" [alt]="item.caption || item.title" [style.object-position]="item.focus" loading="lazy" draggable="false" />
+            @if (item.caption) {
+              <figcaption>{{ item.caption }}</figcaption>
+            }
+          </figure>
+        } @else if (item.screenshot) {
+          <figure class="screenshot">
+            <span class="tape"></span>
+            <img [src]="item.screenshot" [alt]="item.title" loading="lazy" />
+          </figure>
+        } @else {
+          <div class="stamp" aria-hidden="true">
+            <app-doodle [name]="item.doodle || 'heart'" [filled]="true" />
+          </div>
+        }
+
+        <div class="note" [class.solo]="!item.photo && !item.screenshot">
+          <span class="date">{{ item.date }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.story }}</p>
+        </div>
+      </section>
+    }
+  </div>
+
+  <p class="end-note">
+    <app-secret at="memories" doodle="moon" />
+    <span>to be continued…</span>
+  </p>
+</article>

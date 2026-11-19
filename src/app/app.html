@@ -1,0 +1,102 @@
+<div class="stage" [class.is-open]="opened()">
+  <div class="ambient" aria-hidden="true">
+    @for (s of [0, 1, 2, 3, 4, 5, 6, 7]; track s) {
+      <span [style.--i]="s"></span>
+    }
+  </div>
+
+  <header class="topbar" [attr.aria-hidden]="!opened()">
+    <p class="chapter">
+      @if (label(); as l) {
+        <span class="num">{{ l.chapter }}</span>
+        <span class="title">{{ l.title }}</span>
+      }
+    </p>
+    <div class="progress">
+      <div class="track"><div class="fill" [style.width.%]="progress()"></div></div>
+      <div class="dots">
+        @for (leaf of leaves; track leaf; let i = $index) {
+          @if (i > 0) {
+            <button
+              type="button"
+              class="dot"
+              [class.done]="i < current()"
+              [class.active]="i === current()"
+              (click)="go(i)"
+              [attr.aria-label]="'Go to page ' + i"
+            ></button>
+          }
+        }
+      </div>
+    </div>
+  </header>
+
+  <main
+    class="book"
+    (pointerdown)="onPointerDown($event)"
+    (pointermove)="onPointerMove($event)"
+    (pointerup)="onPointerUp($event)"
+    (pointercancel)="onPointerUp($event, true)"
+  >
+    @if (opened() && !swiped()) {
+      <p class="swipe-hint" animate.leave="fade-out">
+        <span class="finger"></span>
+        swipe the page to turn it
+      </p>
+    }
+    @for (leaf of leaves; track leaf; let i = $index) {
+      <section
+        class="leaf"
+        [attr.data-state]="state(i)"
+        [style.z-index]="z(i)"
+        [attr.aria-hidden]="i !== current()"
+        [attr.inert]="i !== current() ? '' : null"
+      >
+        <div class="face front" [class.paper]="leaf !== 'cover'" [class.cover-face]="leaf === 'cover'">
+          @switch (leaf) {
+            @case ('cover') {
+              <app-cover-page (open)="open()" />
+            }
+            @case ('letter') {
+              <app-letter-page />
+            }
+            @case ('reasons') {
+              <app-reasons-page />
+            }
+            @case ('memories') {
+              <app-memories-page />
+            }
+            @case ('dreams') {
+              <app-dreams-page />
+            }
+            @case ('playlist') {
+              <app-playlist-page />
+            }
+            @case ('openWhen') {
+              <app-open-when-page />
+            }
+            @case ('promises') {
+              <app-promises-page />
+            }
+            @case ('wish') {
+              <app-wish-page />
+            }
+            @case ('final') {
+              <app-final-page [active]="i === current()" (restart)="go(0)" />
+            }
+          }
+          @if (i > 0) {
+            <span class="folio">— {{ i }} —</span>
+          }
+        </div>
+        <div class="face back" [class.endpaper]="leaf === 'cover'"></div>
+      </section>
+    }
+  </main>
+
+  <footer class="bottombar" [attr.aria-hidden]="!opened()">
+    <app-music-player />
+  </footer>
+</div>
+
+<app-overlays />

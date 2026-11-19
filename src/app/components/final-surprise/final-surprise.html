@@ -1,0 +1,29 @@
+<div class="scene" role="dialog" aria-modal="true" aria-label="One last surprise">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="lights" aria-hidden="true">
+    @for (l of lights; track $index) {
+      <span
+        [style.left.%]="l.left"
+        [style.width.px]="l.size"
+        [style.height.px]="l.size"
+        [style.animation-delay.s]="l.delay"
+        [style.animation-duration.s]="l.duration"
+      ></span>
+    }
+  </div>
+  <div class="bar top" aria-hidden="true"></div>
+  <div class="bar bottom" aria-hidden="true"></div>
+
+  <div class="content">
+    <p class="dear" [style.animation-delay]="'0.9s'">{{ s.greeting }}</p>
+    @for (p of s.paragraphs; track $index) {
+      <p class="line" [style.animation-delay]="delay($index)">{{ p }}</p>
+    }
+    <div class="ending" [style.animation-delay]="endDelay">
+      <app-doodle class="heart" name="heart" [filled]="true" />
+      <p class="final">{{ s.finalMessage }}</p>
+      <p class="signature">{{ s.signature }}</p>
+      <button type="button" class="btn-ghost light" (click)="close.emit()">back to our book</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,53 @@
+@if (overlay.note(); as note) {
+  @if (note.special) {
+    <div class="backdrop" animate.enter="fade-in" animate.leave="fade-out" (click)="overlay.closeNote()">
+      <div class="secret-card" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+        <div class="secret-hearts" aria-hidden="true">
+          @for (h of [0, 1, 2, 3, 4, 5]; track h) {
+            <app-doodle name="heart" [filled]="true" [style.--i]="h" />
+          }
+        </div>
+        <p class="secret-kicker">shh…</p>
+        <h3 class="script">{{ note.title }}</h3>
+        <p class="secret-text">{{ note.text }}</p>
+        <button type="button" class="btn-ghost" (click)="overlay.closeNote()">keep it our secret ♡</button>
+      </div>
+    </div>
+  } @else {
+    <button type="button" class="toast" animate.enter="toast-in" animate.leave="toast-out" (click)="overlay.closeNote()">
+      <app-doodle name="sparkle" [filled]="true" />
+      <span>{{ note.text }}</span>
+    </button>
+  }
+}
+
+@if (overlay.letter(); as letter) {
+  <div class="backdrop" animate.enter="fade-in" animate.leave="fade-out" (click)="overlay.letter.set(null)">
+    <article class="letter paper" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <div class="letter-scroll">
+        @if (letter.title) {
+          <p class="letter-kicker">{{ letter.title }}</p>
+        }
+        @if (letter.greeting) {
+          <p class="letter-greeting">{{ letter.greeting }}</p>
+        }
+        @for (p of letter.paragraphs; track $index) {
+          <p class="letter-p" [style.--i]="$index">{{ p }}</p>
+        }
+        @if (letter.signoff) {
+          <p class="letter-signoff">{{ letter.signoff }}</p>
+        }
+        @if (letter.signature) {
+          <p class="letter-signature">{{ letter.signature }}</p>
+        }
+      </div>
+      <button type="button" class="letter-close" (click)="overlay.letter.set(null)">
+        fold it back <app-doodle name="heart" [filled]="true" />
+      </button>
+    </article>
+  </div>
+}
+
+@if (overlay.surprise()) {
+  <app-final-surprise animate.enter="fade-in" animate.leave="fade-out" (close)="overlay.surprise.set(false)" />
+}
