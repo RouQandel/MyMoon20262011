@@ -35,7 +35,7 @@ Memories without a photo automatically become pretty scrapbook notes with a litt
 npm run build
 ```
 
-Upload the `dist/love-book/browser` folder to any static host, e.g.:
+Upload the `wwwroot` folder to any static host, e.g.:
 
 - **Netlify Drop** – drag the folder onto https://app.netlify.com/drop and you get a link.
 - **Vercel / GitHub Pages / Firebase Hosting** also work.
