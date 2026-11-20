@@ -15,7 +15,7 @@ export class PlaylistPage {
   protected readonly p = BOOK.playlist;
   protected readonly chapter = chapterLabel('playlist');
   protected readonly progress = computed(() =>
-    this.music.duration() ? (this.music.currentTime() / this.music.duration()) * 100 : 0,
+    this.music.pageDuration() ? (this.music.pageTime() / this.music.pageDuration()) * 100 : 0,
   );
 
   protected time(seconds: number): string {
@@ -26,6 +26,6 @@ export class PlaylistPage {
   protected seek(event: MouseEvent): void {
     const el = event.currentTarget as HTMLElement;
     const rect = el.getBoundingClientRect();
-    this.music.seek((event.clientX - rect.left) / rect.width);
+    this.music.seekPageSong((event.clientX - rect.left) / rect.width);
   }
 }

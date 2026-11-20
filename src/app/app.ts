@@ -65,8 +65,11 @@ export class App {
   });
 
   protected readonly swiped = signal(false);
+  /** True once the current page has stopped turning; lets it drop the 3D context so it can scroll on mobile. */
+  protected readonly settled = signal(true);
 
   private busyUntil = 0;
+  private settleTimer?: ReturnType<typeof setTimeout>;
   private drag: Drag | null = null;
   private suppressClickUntil = 0;
 
@@ -103,6 +106,14 @@ export class App {
     if (i < 0 || i >= this.leaves.length || i === this.current() || now < this.busyUntil) return;
     this.busyUntil = now + TURN_MS * 0.6;
     this.current.set(i);
+    this.music.stopPageSong();
+    this.unsettle();
+  }
+
+  private unsettle(): void {
+    this.settled.set(false);
+    clearTimeout(this.settleTimer);
+    this.settleTimer = setTimeout(() => this.settled.set(true), TURN_MS + 50);
   }
 
   protected state(i: number): string {
@@ -165,7 +176,10 @@ export class App {
     // clearing the inline angle lets the CSS transition finish (or undo) the turn from where the finger left it
     d.leaf.classList.remove('dragging');
     d.leaf.style.transform = '';
-    if (!commit) return;
+    if (!commit) {
+      this.unsettle();
+      return;
+    }
 
     this.busyUntil = 0;
     if (this.current() === 0) this.open();

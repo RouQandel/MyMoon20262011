@@ -48,6 +48,7 @@
       <section
         class="leaf"
         [attr.data-state]="state(i)"
+        [class.settled]="i === current() && settled()"
         [style.z-index]="z(i)"
         [attr.aria-hidden]="i !== current()"
         [attr.inert]="i !== current() ? '' : null"

@@ -11,7 +11,14 @@ export class MusicService {
   readonly currentTime = signal(0);
   readonly duration = signal(0);
 
+  readonly pageSong = BOOK.playlist.song;
+  readonly pagePlaying = signal(false);
+  readonly pageTime = signal(0);
+  readonly pageDuration = signal(0);
+
   private audio: HTMLAudioElement | null = null;
+  private pageAudio: HTMLAudioElement | null = null;
+  private resumeMain = false;
   private fadeFrame = 0;
 
   /** Must be called from a click so browsers allow sound. Never restarts the song. */
@@ -39,9 +46,53 @@ export class MusicService {
   }
 
   toggle(): void {
+    if (this.pagePlaying()) {
+      this.resumeMain = false;
+      this.pageAudio!.pause();
+    }
     if (!this.audio) return this.start();
     if (this.playing()) this.audio.pause();
     else this.play();
+  }
+
+  /** Plays/pauses the playlist page's own song; the main song pauses meanwhile. */
+  togglePageSong(): void {
+    if (this.pagePlaying()) return this.stopPageSong();
+    const page = this.pageAudio ?? this.createPageAudio();
+    if (this.audio && this.playing()) {
+      this.resumeMain = true;
+      this.audio.pause();
+    }
+    page.play().catch(() => this.pagePlaying.set(false));
+  }
+
+  /** Pauses the page song and resumes the main song from where it stopped. */
+  stopPageSong(): void {
+    if (this.pageAudio && !this.pageAudio.paused) this.pageAudio.pause();
+    if (this.resumeMain && this.audio) {
+      this.resumeMain = false;
+      this.play();
+    }
+  }
+
+  seekPageSong(ratio: number): void {
+    if (!this.pageAudio || !this.pageDuration()) return;
+    this.pageAudio.currentTime = Math.min(Math.max(ratio, 0), 1) * this.pageDuration();
+  }
+
+  private createPageAudio(): HTMLAudioElement {
+    const audio = new Audio(this.pageSong.src);
+    audio.preload = 'auto';
+    audio.addEventListener('play', () => this.pagePlaying.set(true));
+    audio.addEventListener('pause', () => this.pagePlaying.set(false));
+    audio.addEventListener('ended', () => {
+      this.pagePlaying.set(false);
+      this.stopPageSong();
+    });
+    audio.addEventListener('timeupdate', () => this.pageTime.set(audio.currentTime));
+    audio.addEventListener('loadedmetadata', () => this.pageDuration.set(audio.duration || 0));
+    this.pageAudio = audio;
+    return audio;
   }
 
   seek(ratio: number): void {

@@ -220,6 +220,21 @@
     visibility: visible;
     transition: none;
   }
+
+  // a resting page leaves the 3D context: mobile WebKit can't touch-scroll inside preserve-3d
+  &.settled:not(.dragging) {
+    transform-style: flat;
+
+    > .front {
+      backface-visibility: visible;
+      -webkit-backface-visibility: visible;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    > .back {
+      display: none;
+    }
+  }
 }
 
 .face {
@@ -234,6 +249,8 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
+  // a scroll container resets touch-action, so repeat it here or horizontal swipes get eaten
+  touch-action: pan-y;
   scrollbar-width: thin;
   scrollbar-color: rgba(181, 131, 141, 0.45) transparent;
   box-shadow:

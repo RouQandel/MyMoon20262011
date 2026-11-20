@@ -5,60 +5,35 @@
     <p class="lead">{{ p.intro }}</p>
   </header>
 
-  <section class="turntable" [class.playing]="music.playing()">
+  <section class="turntable" [class.playing]="music.pagePlaying()">
     <div class="deck">
       <div class="disc">
         <div class="disc-label">
-          <span class="disc-title">{{ music.song.title }}</span>
           <app-doodle name="heart" [filled]="true" />
         </div>
       </div>
       <div class="arm" aria-hidden="true"><span class="arm-head"></span></div>
     </div>
 
-    <p class="our-song">{{ p.ourSongLabel }}</p>
-    <h3 class="song-title">{{ music.song.title }}</h3>
-    <p class="song-artist">{{ music.song.artist }}</p>
+    <h3 class="song-title">{{ music.pageSong.words }}</h3>
 
     <div class="controls">
-      <span class="t">{{ time(music.currentTime()) }}</span>
+      <span class="t">{{ time(music.pageTime()) }}</span>
       <button type="button" class="bar" (click)="seek($event)" aria-label="Seek">
         <span class="fill" [style.width.%]="progress()"></span>
       </button>
-      <span class="t">{{ time(music.duration()) }}</span>
+      <span class="t">{{ time(music.pageDuration()) }}</span>
     </div>
-    <button type="button" class="big-pp" (click)="music.toggle()">
-      {{ music.playing() ? 'pause our song' : 'play our song' }}
+    <button type="button" class="big-pp" (click)="music.togglePageSong()">
+      {{ music.pagePlaying() ? 'pause' : 'play' }}
     </button>
-    <p class="remind">{{ music.song.note }}</p>
   </section>
 
   <section class="lyrics">
     <span class="tape"></span>
-    <p class="lyrics-intro">{{ p.lyricsIntro }}</p>
     @for (line of p.lyrics; track $index) {
-      <p class="lyric">{{ line }}</p>
+      <p class="lyric" dir="auto">{{ line }}</p>
     }
     <app-secret class="lyrics-secret" at="playlist" doodle="note" [filled]="false" />
-  </section>
-
-  <section class="tracks">
-    <h4>songs that sound like us</h4>
-    <ol>
-      @for (s of p.songs; track $index; let i = $index) {
-        <li>
-          <span class="no">{{ i + 1 }}</span>
-          <span class="info">
-            <span class="name">{{ s.title }} <em>— {{ s.artist }}</em></span>
-            <span class="why">{{ s.note }}</span>
-          </span>
-          @if (s.link) {
-            <a class="listen" [href]="s.link" target="_blank" rel="noopener noreferrer" aria-label="Listen">
-              <app-doodle name="note" />
-            </a>
-          }
-        </li>
-      }
-    </ol>
   </section>
 </article>

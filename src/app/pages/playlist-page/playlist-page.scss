@@ -48,16 +48,6 @@
   background: radial-gradient(circle, var(--paper-light) 8%, var(--blush) 9%, #e5b9b4);
   color: var(--burgundy);
 
-  .disc-title {
-    max-width: 100%;
-    overflow: hidden;
-    font-family: var(--font-script);
-    font-size: 0.95rem;
-    line-height: 1;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
   app-doodle {
     font-size: 0.6rem;
   }
@@ -230,14 +220,6 @@
     background: rgba(200, 164, 106, 0.35);
   }
 
-  .lyrics-intro {
-    margin-bottom: 8px;
-    font-family: var(--font-serif);
-    font-size: 0.8rem;
-    font-style: italic;
-    color: var(--rose);
-  }
-
   .lyric {
     font-family: var(--font-hand);
     font-size: 1.5rem;
@@ -253,74 +235,6 @@
   color: var(--rose);
 }
 
-.tracks {
-  margin-top: 30px;
-
-  h4 {
-    margin-bottom: 8px;
-    font-family: var(--font-serif);
-    font-size: 0.8rem;
-    font-style: italic;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-align: center;
-    color: var(--brown);
-  }
-
-  ol {
-    list-style: none;
-  }
-
-  li {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 12px 4px;
-    border-bottom: 1px dashed rgba(122, 46, 62, 0.18);
-  }
-
-  .no {
-    font-family: var(--font-serif);
-    font-size: 1.3rem;
-    font-style: italic;
-    color: var(--rose);
-  }
-
-  .info {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-  }
-
-  .name {
-    font-family: var(--font-serif);
-    font-size: 1.02rem;
-    font-weight: 600;
-    color: var(--burgundy);
-
-    em {
-      font-weight: 400;
-      color: var(--brown);
-    }
-  }
-
-  .why {
-    font-family: var(--font-hand);
-    font-size: 1.15rem;
-    color: var(--ink);
-  }
-
-  .listen {
-    display: grid;
-    place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: var(--blush);
-    color: var(--burgundy);
-  }
-}
 
 @keyframes spin {
   to {

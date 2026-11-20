@@ -51,7 +51,7 @@ export const BOOK = {
   hisName: HIS_NAME,
   nickname: NICKNAME,
   herName: HER_NAME,
-  birthday: 'November 19',
+  birthday: 'November 20',
   tabTitle: `For my ${NICKNAME} ♡`,
 
   /** Chapters in order. Remove a line to remove that page. */
@@ -245,16 +245,12 @@ export const BOOK = {
   playlist: {
     title: 'A playlist of memories',
     intro: 'Some songs are just songs. Others are whole memories.',
-    ourSongLabel: 'our song',
-    lyricsIntro: 'the part you used to sing to me',
-    lyrics: ['(write your favourite line', 'of the lyrics right here ♡)'],
-    /** Other songs. `link` is optional (Spotify / YouTube / Apple Music). */
-    songs: [
-      { title: 'Song Title', artist: 'Artist', note: 'the one from our first long drive', link: '' },
-      { title: 'Song Title', artist: 'Artist', note: 'you sent me this at 2am', link: '' },
-      { title: 'Song Title', artist: 'Artist', note: 'it played the night we met', link: '' },
-      { title: 'Song Title', artist: 'Artist', note: 'reminds me of your laugh', link: '' },
-    ],
+    lyrics: ['عايزك جاني طول العمر يا قمري ❤'],
+    /** The song that plays on this page. The main song pauses while it plays and resumes on the next page. */
+    song: {
+      src: 'music/from-you.mp3',
+      words: 'I love to hear from you every day',
+    },
   },
 
   openWhen: {
